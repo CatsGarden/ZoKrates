@@ -55,8 +55,8 @@ RUN apt-get update && apt-get install -y vim \
 COPY vimrc /root/.vimrc
 
 #-------Install MerkleTree Evaluation Proj-----
-RUN mkdir -p /root/mkt \
- && cd /root/mkt \
+RUN mkdir -p /go/src/github.com/cbergoon/ \
+ && cd /go/src/github.com/cbergoon \
  && git clone https://github.com/cbergoon/merkletree.git
 
 #------ install Golang 1.8.x ----------
