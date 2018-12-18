@@ -57,7 +57,6 @@ COPY vimrc /root/.vimrc
 #-------Install MerkleTree Evaluation Proj-----
 RUN mkdir -p /root/mkt \
  && cd /root/mkt \
- && git clone https://github.com/gnosis/MultiSigWallet.git
  && git clone https://github.com/cbergoon/merkletree.git
 
 #------ install Golang 1.8.x ----------
