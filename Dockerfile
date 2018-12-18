@@ -52,4 +52,35 @@ RUN curl https://sh.rustup.rs -sSf | sh -s -- --default-toolchain $RUST_TOOLCHAI
 RUN apt-get update && apt-get install -y vim \
     && apt-get install -y tree
     
-#COPY vimrc /root/.vimrc
+COPY vimrc /root/.vimrc
+
+#-------Install MerkleTree Evaluation Proj-----
+RUN mkdir -p /root/mkt \
+ && cd /root/mkt \
+ && git clone https://github.com/gnosis/MultiSigWallet.git
+ && git clone https://github.com/cbergoon/merkletree.git
+
+#------ install Golang 1.8.x ----------
+RUN mkdir -p /root/go-setup \
+    && cd /root/go-setup/ 
+    # && wget https://storage.googleapis.com/golang/go1.8.3.linux-amd64.tar.gz \
+ADD https://storage.googleapis.com/golang/go1.8.3.linux-amd64.tar.gz /root/go-setup/
+RUN cd /root/go-setup \
+    && tar -xvf go1.8.3.linux-amd64.tar.gz \
+    && mv go /usr/local \
+    && mkdir /go
+
+#set golang environment variables
+ENV GOROOT /usr/local/go  
+ENV GOPATH /go
+#ENV PATH $GOPATH/bin:$GOROOT/bin:$PATH
+ENV PATH $GOPATH/bin:$GOROOT/bin:/root/src/target/release:$PATH
+
+# set go vim syntax highlightning  
+# RUN wget https://storage.googleapis.com/golang/go1.3.3.src.tar.gz \
+ADD https://storage.googleapis.com/golang/go1.3.3.src.tar.gz /root/go-setup/ 
+RUN cd /root/go-setup \
+    && tar -zxvf go1.3.3.src.tar.gz \
+    && cp -r go/misc/vim/syntax/ go/misc/vim/ftplugin/ go/misc/vim/indent/ go/misc/vim/compiler/ go/misc/vim/ftdetect/ /usr/share/vim/vim74/ 
+
+WORKDIR /root/
